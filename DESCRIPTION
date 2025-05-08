@@ -2,7 +2,7 @@ Package: chunkwise
 Title: Tools to Read Large Text Files in Chunks
 Version: 0.1
 Authors@R: 
-    person("Joscha", "Krug", "joscha.krug@proton.me", role = c("aut", "cre"))
+    person("Joscha", "Krug", , "joscha.krug@proton.me", role = c("aut", "cre"))
 Description: This package provides utility functions to efficiently read large text files into `R` in chunks of arbitrary size.
 License: GPL-3
 Encoding: UTF-8
