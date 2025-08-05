@@ -46,10 +46,10 @@ std::string concat_chunk(
 void read_chunkwise(
         const std::string& filepath,
         Function handler,
-        int chunk_size = 100000,
+        size_t chunk_size = 100000,
         bool repeat_header = true,
-        int header_rows = 1,
-        int skip = 0,
+        size_t header_rows = 1,
+        size_t skip = 0,
         Nullable<int> max_rows = R_NilValue
     ) {
     
@@ -76,11 +76,11 @@ void read_chunkwise(
 
     // read in chunks as a vector of lines each
     std::vector<std::string> chunk;
-    int counter = 0;
-    int last_counter = 0;
+    size_t counter = 0;
+    size_t last_counter = 0;
 
     // run through the file line by line...
-    while (std::getline(file, line) && (max_rows.isNull() || (counter < as<int>(max_rows)))) {
+    while (std::getline(file, line) && (max_rows.isNull() || (counter < as<size_t>(max_rows)))) {
         // append the current line to the end of the chunk vector and increment
         // the counter
         chunk.push_back(line);

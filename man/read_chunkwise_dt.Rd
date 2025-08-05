@@ -4,7 +4,7 @@
 \alias{read_chunkwise_dt}
 \title{Read in a large tabular text file as a data.table, chunk by chunk}
 \usage{
-read_chunkwise_dt(file, filter = identity, ...)
+read_chunkwise_dt(file, filter = identity, sep = ",", ...)
 }
 \arguments{
 \item{file}{Path to the text file to read}

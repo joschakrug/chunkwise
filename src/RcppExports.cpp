@@ -11,16 +11,16 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // read_chunkwise
-void read_chunkwise(const std::string& filepath, Function handler, int chunk_size, bool repeat_header, int header_rows, int skip, Nullable<int> max_rows);
+void read_chunkwise(const std::string& filepath, Function handler, size_t chunk_size, bool repeat_header, size_t header_rows, size_t skip, Nullable<int> max_rows);
 RcppExport SEXP _chunkwise_read_chunkwise(SEXP filepathSEXP, SEXP handlerSEXP, SEXP chunk_sizeSEXP, SEXP repeat_headerSEXP, SEXP header_rowsSEXP, SEXP skipSEXP, SEXP max_rowsSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type filepath(filepathSEXP);
     Rcpp::traits::input_parameter< Function >::type handler(handlerSEXP);
-    Rcpp::traits::input_parameter< int >::type chunk_size(chunk_sizeSEXP);
+    Rcpp::traits::input_parameter< size_t >::type chunk_size(chunk_sizeSEXP);
     Rcpp::traits::input_parameter< bool >::type repeat_header(repeat_headerSEXP);
-    Rcpp::traits::input_parameter< int >::type header_rows(header_rowsSEXP);
-    Rcpp::traits::input_parameter< int >::type skip(skipSEXP);
+    Rcpp::traits::input_parameter< size_t >::type header_rows(header_rowsSEXP);
+    Rcpp::traits::input_parameter< size_t >::type skip(skipSEXP);
     Rcpp::traits::input_parameter< Nullable<int> >::type max_rows(max_rowsSEXP);
     read_chunkwise(filepath, handler, chunk_size, repeat_header, header_rows, skip, max_rows);
     return R_NilValue;
