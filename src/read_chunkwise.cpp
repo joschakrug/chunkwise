@@ -125,8 +125,6 @@ void read_chunkwise(
             chunk_text = concat_chunk(chunk);
         }
 
-        std::cout << chunk_text;
-
         handler(chunk_text);
     }
 

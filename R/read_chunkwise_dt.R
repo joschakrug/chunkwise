@@ -33,7 +33,7 @@ read_chunkwise_dt <- function(
 
   chunk_handler <- function(chunk_text) {
     chunk_dt <- data.table::fread(
-      text = chunk_text, sep = sep, header = TRUE
+      text = chunk_text, sep = sep, header = TRUE, showProgress = FALSE
     )
     if (copy) {
       chunk_dt <- filter(chunk_dt)
