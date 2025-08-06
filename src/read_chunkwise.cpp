@@ -26,6 +26,8 @@ std::string concat_chunk(
     return chunk_text_str;
 }
 
+//' Read in a text file, chunk by chunk
+//'
 //' Read text file `filepath` in chunks of `chunk_size` lines and pass each
 //' chunk to a user-provided `handler` function.
 //'

@@ -2,21 +2,73 @@
 % Please edit documentation in R/read_chunkwise_dt.R
 \name{read_chunkwise_dt}
 \alias{read_chunkwise_dt}
-\title{Read in a large tabular text file as a data.table, chunk by chunk}
+\title{Read in a text file as a data.table, chunk by chunk}
 \usage{
-read_chunkwise_dt(file, filter = identity, sep = ",", ...)
+read_chunkwise_dt(file, filter = identity, copy = TRUE, sep = ",", ...)
 }
 \arguments{
 \item{file}{Path to the text file to read}
 
 \item{filter}{Filter function (defaults to \code{identity})}
 
-\item{...}{Parameters passed through to \code{read_chunkwise}}
+\item{copy}{Set to \code{FALSE} if the \code{filter} function modifies the provided
+\code{data.table} chunk in place instead of returning a modified copy of the
+chunk (defaults to \code{TRUE})}
+
+\item{sep}{Column separator in the text file (defaults to \verb{,})}
+
+\item{...}{Other arguments are passed through to \code{\link[=read_chunkwise]{read_chunkwise()}}}
 }
 \value{
 A \code{data.table} generated from the data in the text file
 }
 \description{
+This function is a wrapper around the \code{\link[=read_chunkwise]{read_chunkwise()}} function that reads
+in a text file chunk-by-chunk as a \code{data.table}.
+}
+\details{
 Crucially, a custom \code{filter} function can be provided to perform arbitrary
 transformations on each chunk before appending it to the full data.table.
+Each chunk is passed to the \code{filter} function as a \code{data.table} object. The
+\code{filter} function can either return a modified copy of the \code{data.table} (if
+\code{copy = TRUE}) or modify this \code{data.table} in place (if \code{copy = FALSE}).
+
+Be aware that, due to limitations of the \code{data.table} interface, assignment
+by reference is only possible for column transformations, not for filtering
+of rows (see \link[data.table]{set}).
+}
+\examples{
+dt <- data.table::data.table(
+    a = replicate(1000, "abc"),
+    n = 1:1000
+)
+
+outfile <- tempfile()
+data.table::fwrite(dt, file = outfile)
+
+# read chunkwise, filtering by copy
+
+chunk_filter <- function(chunk_dt) {
+  # modifying the original chunk_dt in place is safe because only the
+  # data.table that is returned by the filter function is used by
+  # read_chunkwise_dt()
+  chunk_dt[, `:=`(b = n, a = a)]
+  chunk_dt <- chunk_dt[b \%\% 5 == 0, .(a, b)]
+
+  # crucially: return (a copy of) the processed data.table
+  chunk_dt
+}
+
+read_chunkwise_dt(outfile, chunk_size = 150, filter = chunk_filter)
+
+# read chunkwise, filtering via in-place transformation
+
+chunk_transform <- function(chunk_dt) {
+  chunk_dt[, c := paste(a, a, sep = ",")]
+  chunk_dt[, a := NULL]
+}
+
+read_chunkwise_dt(
+  outfile, chunk_size = 150, filter = chunk_transform, copy = FALSE
+)
 }

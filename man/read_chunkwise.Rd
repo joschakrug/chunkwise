@@ -2,8 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{read_chunkwise}
 \alias{read_chunkwise}
-\title{Read text file \code{filepath} in chunks of \code{chunk_size} lines and pass each
-chunk to a user-provided \code{handler} function.}
+\title{Read in a text file, chunk by chunk}
 \usage{
 read_chunkwise(
   filepath,
