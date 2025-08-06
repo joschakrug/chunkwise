@@ -10,9 +10,9 @@ The main methods this package provides are `read_chunkwise` and `read_chunkwise_
 
 In principle, it is possible to implement chunk-wise loading of large tabular data files by combining the `skip` and `nrow` parameters of the `data.table::fread` function. However, this becomes very slow for large data files because `fread` starts from the beginning of the data file in each iteration and runs through the first `skip` lines before every chunk. `read_chunkwise`, on the other hand, uses an efficient C++ implementation under the hood to only walk through the entire data file once and send the current chunk to an R handler.
 
-## Build instructions (for developers only)
+## Building and testing workflows (for developers only)
 
-After making any changes to any code, run
+After making any changes to any code in the `src` or `R` directories, run
 
 ```{R}
 devtools::clean_dll()
@@ -21,3 +21,11 @@ devtools::load_all()
 ```
 
 from the package root. This will ensure automatically that the package description etc. are consistent, even across R and C++ parts of the package, and create a clean local debug build.
+
+To ensure the package still passes all tests after you have made any changes, run
+
+```{R}
+devtools::test()
+```
+
+from the package root.
